@@ -21,17 +21,17 @@
 
 int main(int argc, string argv[])
 {
-    // TODO: comment me
+    // print usage if user input is incorrect
     if (argc != 2 && argc != 3)
     {
         printf("Usage: ./generate n [s]\n");
         return 1;
     }
 
-    // TODO: comment me
+    // convert user input into an integer
     int n = atoi(argv[1]);
 
-    // TODO: comment me
+    // if second argument provided, set the values rand() will generate
     if (argc == 3)
     {
         srand((unsigned int) atoi(argv[2]));
@@ -41,7 +41,7 @@ int main(int argc, string argv[])
         srand((unsigned int) time(NULL));
     }
 
-    // TODO: comment me
+    // print the amount of random numbers the user requested
     for (int i = 0; i < n; i++)
     {
         printf("%i\n", rand() % LIMIT);
