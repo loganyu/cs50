@@ -19,14 +19,33 @@
 bool search(int value, int values[], int n)
 {
     // implement a searching algorithm
-    for (int i = 0; i < n; i++)
+    
+    // start in middle
+    int first = 0;
+    int last = n-1;
+    int middle = (first + last) / 2;
+    
+    while( first <= last)
     {
-        if (values[i] == value) {
+    
+        if (values[middle] == value)
+        {
             return true;
         }
+        else if (values[middle] > value)
+        {
+            last = middle - 1;
+        }
+        else if (values[middle] < value)
+        {
+            first = middle + 1;
+        }
+        middle = (first + last) / 2;
+    
     }
     
     return false;
+
 }
 
 /**
@@ -34,7 +53,7 @@ bool search(int value, int values[], int n)
  */
 void sort(int values[], int n)
 {
-    // TODO: implement an O(n^2) sorting algorithm
+    // implement an O(n^2) sorting algorithm
     
     bool sorted = false;
     int placeholder;
@@ -49,16 +68,11 @@ void sort(int values[], int n)
             {
                 sorted = false;
                 placeholder = values[i];
-                values[i] = values[j];
-                values[j] = values[i];
+                values[i] = values[i+1];
+                values[i+1] = placeholder;
             }
         }
     }while(!sorted);
-    
-    for (int i = 0; i < n; i++)
-    {
-        printf("%i\n", values[i]);
-    }
     
     return;
 }
