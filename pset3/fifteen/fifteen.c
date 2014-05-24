@@ -34,6 +34,10 @@ int board[MAX][MAX];
 // board's dimension
 int d;
 
+// blank tile position
+int blank_x_pos;
+int blank_y_pos;
+
 // prototypes
 void clear(void);
 void greet(void);
@@ -131,6 +135,8 @@ void greet(void)
  */
 void init(void)
 {
+    blank_x_pos = d - 1;
+    blank_y_pos = d - 1;
 
     int tile_value = 0;
     for (int i = d - 1; i >= 0; i--)
@@ -196,8 +202,35 @@ void draw(void)
  */
 bool move(int tile)
 {
-    // TODO
-    return false;
+    int tile_x_pos;
+    int tile_y_pos;
+    
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (board[i][j] == tile)
+            {
+                tile_x_pos = j;
+                tile_y_pos = i;
+            }
+        }
+    }
+    
+    if ( tile_x_pos == blank_x_pos || tile_y_pos == blank_y_pos )
+    {
+        board[tile_y_pos][tile_x_pos] = 0;
+        board[blank_y_pos][blank_x_pos] = tile;
+        
+        blank_y_pos = tile_y_pos;
+        blank_x_pos = tile_x_pos;
+        
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 /**
@@ -206,8 +239,27 @@ bool move(int tile)
  */
 bool won(void)
 {
-    // TODO
-    return false;
+    int tile_number = 1;
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (i == d - 1 && j == d - 1)
+            {
+                break;
+            }
+            if (board[i][j] != tile_number)
+            {
+                return false;
+            }
+            else
+            {
+                tile_number++;
+            }
+            
+        }
+    }
+    return true;
 }
 
 /**
