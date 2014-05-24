@@ -131,7 +131,41 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
+
+    int tile_value = 0;
+    for (int i = d - 1; i >= 0; i--)
+    {
+        for (int j = d - 1; j >= 0; j--)
+        {
+            if (tile_value == 1)
+            {
+                if (d % 2 == 0)
+                {
+                    board[i][j] = 2;
+                    
+                } else
+                {
+                    board[i][j] = 1;
+                }
+            }
+            else if (tile_value == 2)
+            {
+                if (d % 2 == 0)
+                {
+                    board[i][j] = 1;
+                    
+                } else
+                {
+                    board[i][j] = 2;
+                }
+            }
+            else
+            {
+                board[i][j] = tile_value;
+            }
+            tile_value++;
+        }
+    }
 }
 
 /**
@@ -139,7 +173,21 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (board[i][j] == 0)
+            {
+                printf("__ ");
+            }
+            else
+            {
+                printf("%2d ", board[i][j]);
+            }
+        }
+        printf("\n");
+    }
 }
 
 /**
