@@ -115,7 +115,17 @@ int main(void)
  */
 void initBricks(GWindow window)
 {
-    // TODO
+    int brick_gap = 5;
+    int brick_width = WIDTH/10 - brick_gap * 2;
+    int brick_height = 12;
+    
+
+
+    // create brick
+    GRect brick = newGRect(0, 0, brick_width, brick_height);
+    setFilled(brick, true);
+    setColor(brick, "RED");     
+    add(window, brick);
 }
 
 /**
@@ -136,7 +146,7 @@ GRect initPaddle(GWindow window)
     int y = HEIGHT * 9/10;
     GRect paddle = newGRect(x,y,PADDLEWIDTH, PADDLEHEIGHT);
     
-    setColor(paddle, "ORANGE");
+    setColor(paddle, "BLACK");
     setFilled(paddle, true);
     
     add(window, paddle);
