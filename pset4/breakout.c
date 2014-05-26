@@ -75,7 +75,8 @@ int main(void)
     int points = 0;
     
     // initial ball velocity
-    double velocity = 2.0;
+    double x_velocity = 2.0;
+    double y_velocity = 2.0;
 
     // keep playing until game over
     while (lives > 0 && bricks > 0)
@@ -109,19 +110,31 @@ int main(void)
         
         // bounce the ball
         
-        // move circle along x-axis
-        move(ball, velocity, 0);
+        // move circle
+        move(ball, x_velocity, y_velocity);
 
         // bounce off right edge of window
         if (getX(ball) + getWidth(ball) >= getWidth(window))
         {
-            velocity = -velocity;
+            x_velocity = -x_velocity;
         }
 
         // bounce off left edge of window
         else if (getX(ball) <= 0)
         {
-            velocity = -velocity;
+            x_velocity = -x_velocity;
+        }
+        
+        // bounce off top edge of window
+        if (getY(ball) + getHeight(ball) >= getHeight(window))
+        {
+            y_velocity = -y_velocity;
+        }
+
+        // bounce off bottom edge of window
+        else if (getY(ball) <= 0)
+        {
+            y_velocity = -y_velocity;
         }
         
         // linger before moving again
