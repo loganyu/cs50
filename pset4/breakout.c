@@ -73,10 +73,16 @@ int main(void)
 
     // number of points initially
     int points = 0;
+    
+    // initial ball velocity
+    double velocity = 2.0;
 
     // keep playing until game over
     while (lives > 0 && bricks > 0)
     {
+    
+        // move the paddle
+    
         // check for mouse event
         GEvent event = getNextEvent(MOUSE_EVENT);
 
@@ -100,13 +106,27 @@ int main(void)
                 setLocation(paddle, x, HEIGHT * 9/10);
             }
         }
+        
+        // bounce the ball
+        
+        // move circle along x-axis
+        move(ball, velocity, 0);
+
+        // bounce off right edge of window
+        if (getX(ball) + getWidth(ball) >= getWidth(window))
+        {
+            velocity = -velocity;
+        }
+
+        // bounce off left edge of window
+        else if (getX(ball) <= 0)
+        {
+            velocity = -velocity;
+        }
+        
+        // linger before moving again
+        pause(10);
     }
-
-    // wait for click before exiting
-    waitForClick();
-
-    // game over
-    closeGWindow(window);
     return 0;
 }
 
