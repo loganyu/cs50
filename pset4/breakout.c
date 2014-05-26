@@ -115,17 +115,35 @@ int main(void)
  */
 void initBricks(GWindow window)
 {
-    int brick_gap = 5;
-    int brick_width = WIDTH/10 - brick_gap * 2;
+    // constants for individual brick
+    int brick_gap = 4;
+    int brick_width = WIDTH/10 - brick_gap;
     int brick_height = 12;
+    int x = 2;
+    int y = HEIGHT * 1/10;
+    string colors[5];
+    colors[0] = "RED";
+    colors[1] = "ORANGE";
+    colors[2] = "YELLOW";
+    colors[3] = "GREEN";
+    colors[4] = "CYAN";
     
-
-
-    // create brick
-    GRect brick = newGRect(0, 0, brick_width, brick_height);
-    setFilled(brick, true);
-    setColor(brick, "RED");     
-    add(window, brick);
+    for (int row = 0; row < ROWS; row++)
+    {
+        
+        for (int col = 0; col < COLS; col++)
+        {
+            // create brick
+           GRect brick = newGRect(x, y, brick_width, brick_height);
+            setFilled(brick, true);
+            setColor(brick, colors[row]);     
+            add(window, brick);
+            x = x + brick_width + brick_gap;
+        }
+        
+        y = y + brick_height + brick_gap;
+        x = 2;
+    }
 }
 
 /**
