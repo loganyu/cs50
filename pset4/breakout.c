@@ -33,6 +33,10 @@
 // lives
 #define LIVES 3
 
+// paddle properties
+#define PADDLEWIDTH 60
+#define PADDLEHEIGHT 10
+
 // prototypes
 void initBricks(GWindow window);
 GOval initBall(GWindow window);
@@ -106,8 +110,16 @@ GOval initBall(GWindow window)
  */
 GRect initPaddle(GWindow window)
 {
-    // TODO
-    return NULL;
+    int x = WIDTH/2 - PADDLEWIDTH/2;
+    int y = HEIGHT * 9/10;
+    GRect paddle = newGRect(x,y,PADDLEWIDTH, PADDLEHEIGHT);
+    
+    setColor(paddle, "ORANGE");
+    setFilled(paddle, true);
+    
+    add(window, paddle);
+    
+    return paddle;
 }
 
 /**
