@@ -75,7 +75,7 @@ int main(void)
     int points = 0;
     
     // initial ball velocity
-    double x_velocity = 2.0;
+    double x_velocity = 2 * drand48();
     double y_velocity = 2.0;
 
     // keep playing until game over
