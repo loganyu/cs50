@@ -124,15 +124,9 @@ int main(void)
         {
             x_velocity = -x_velocity;
         }
-        
-        // bounce off top edge of window
-        if (getY(ball) + getHeight(ball) >= getHeight(window))
-        {
-            y_velocity = -y_velocity;
-        }
 
-        // bounce off bottom edge of window
-        else if (getY(ball) <= 0)
+        // bounce off top edge of window
+        if (getY(ball) <= 0)
         {
             y_velocity = -y_velocity;
         }
@@ -151,6 +145,15 @@ int main(void)
                 removeGWindow(window, object);
             }
 
+        
+        // reset if ball hits bottom
+        
+        if ( getY(ball) + getHeight(ball) >= getHeight(window) )
+        {
+            setLocation(ball, WIDTH/2, HEIGHT/2);
+            pause(500);
+        }
+        
         
         // linger before moving again
         pause(10);
