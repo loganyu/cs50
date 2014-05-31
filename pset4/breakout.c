@@ -141,13 +141,16 @@ int main(void)
         
         GObject object = detectCollision(window, ball);
         
-        if (object == paddle)
-        {           
-            y_velocity = -y_velocity;
-        }
-        
-        
-        
+
+            if (object == paddle)
+            {           
+                y_velocity = -y_velocity;
+            } else if (object != NULL)
+            {
+                y_velocity = -y_velocity;
+                removeGWindow(window, object);
+            }
+
         
         // linger before moving again
         pause(10);
