@@ -137,6 +137,18 @@ int main(void)
             y_velocity = -y_velocity;
         }
         
+        // detect collision
+        
+        GObject object = detectCollision(window, ball);
+        
+        if (object == paddle)
+        {           
+            y_velocity = -y_velocity;
+        }
+        
+        
+        
+        
         // linger before moving again
         pause(10);
     }
