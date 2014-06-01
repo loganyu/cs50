@@ -135,15 +135,19 @@ int main(void)
         
         GObject object = detectCollision(window, ball);
         
-
-            if (object == paddle)
-            {           
-                y_velocity = -y_velocity;
-            } else if (object != NULL)
+            if (object != label)
             {
-                y_velocity = -y_velocity;
-                removeGWindow(window, object);
+                if (object == paddle)
+                {           
+                    y_velocity = -y_velocity;
+                } else if (object != NULL)
+                {
+                    y_velocity = -y_velocity;
+                    removeGWindow(window, object);
+                    updateScoreboard(window, label, points);
+                }
             }
+
 
         
         // reset if ball hits bottom
@@ -231,8 +235,16 @@ GRect initPaddle(GWindow window)
  */
 GLabel initScoreboard(GWindow window)
 {
-    // TODO
-    return NULL;
+    GLabel label = newGLabel("0");
+    setFont(label, "SansSerif-18");
+    add(window, label);
+
+    // center label in window
+    double x = (getWidth(window) - getWidth(label)) / 2;
+    double y = (getHeight(window) - getHeight(label)) / 2;
+    setLocation(label, x, y);
+    
+    return label;
 }
 
 /**
