@@ -142,6 +142,7 @@ int main(void)
                     y_velocity = -y_velocity;
                 } else if (object != NULL)
                 {
+                    points++;
                     y_velocity = -y_velocity;
                     removeGWindow(window, object);
                     updateScoreboard(window, label, points);
@@ -154,6 +155,7 @@ int main(void)
         
         if ( getY(ball) + getHeight(ball) >= getHeight(window) )
         {
+            lives--;
             setLocation(ball, WIDTH/2, HEIGHT/2);
             pause(500);
         }
