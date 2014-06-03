@@ -1,8 +1,8 @@
-0.  TODO
-1.  TODO
-2.  TODO
-3.  TODO
-4.  TODO
+0.  How many different colors does each format support? BMP: 16,777,216; GIF: 256; JPEG: 16.7 million; PNG: over 16 million
+1.  Which of these formats supports animation? GIF
+2.  Which of these formats is lossy-compressed? JPEG
+3.  What happens, technically speaking, when a file is deleted on a FAT file system? The filename's first character is changed to indicate it has been deleted. The file's FAT clusters are moved to the hard drive's list of free clusters.
+4.  What can someone like you do to ensure (with high probability) that files you delete cannot be recovered? Overriding the file.
 5.  TODO
 6.  TODO
 7.  TODO
