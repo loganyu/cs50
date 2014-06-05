@@ -16,4 +16,4 @@
 15. What value does copy.c:70 assign padding if bi.biWidth is 3? 4
 16. What does fseek do? sets the file position
 17. What is SEEK_CUR? seek from current location
-18. TODO
+18. Whodunit? Mila Banana
