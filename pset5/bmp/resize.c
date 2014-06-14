@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     }
 
     // remember filenames
-    int n = argv[1]
+    int n = atoi(argv[1]);
     char* infile = argv[2];
     char* outfile = argv[3];
 
@@ -47,14 +47,15 @@ int main(int argc, char* argv[])
     // read infile's BITMAPFILEHEADER
     BITMAPFILEHEADER bf;
     fread(&bf, sizeof(BITMAPFILEHEADER), 1, inptr);
-    
-    // update header info
-    
 
     // read infile's BITMAPINFOHEADER
     BITMAPINFOHEADER bi;
     fread(&bi, sizeof(BITMAPINFOHEADER), 1, inptr);
-
+    
+    
+    BITMAPFILEHEADER bf_new = bf;
+    BITMAPINFOHEADER bi_new = bi;
+    
     // ensure infile is (likely) a 24-bit uncompressed BMP 4.0
     if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 || 
         bi.biBitCount != 24 || bi.biCompression != 0)
@@ -64,40 +65,66 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Unsupported file format.\n");
         return 4;
     }
-
+        
+    // update header info
+    
+    bi_new.biWidth = bi.biWidth * n;
+    bi_new.biHeight = bi.biHeight * n;
+    
+    
+    // determine old padding
+    int old_padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    
+    // determine new padding
+    int padding =  (4 - (bi_new.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    
+    bi_new.biSizeImage = ((bi_new.biWidth * 3 + padding) * -bi_new.biHeight);
+    
     // write outfile's BITMAPFILEHEADER
-    fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
+    fwrite(&bf_new, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
-    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
-
-    // determine padding for scanlines
-    int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    fwrite(&bi_new, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
-        // iterate over pixels in scanline
-        for (int j = 0; j < bi.biWidth; j++)
+        // repeat for duplicate vertically
+        for (int k = 0; k < n; k++)
         {
-            // temporary storage
-            RGBTRIPLE triple;
+        
+            // iterate over pixels in scanline
+            for (int j = 0; j < bi.biWidth; j++)
+            {
+                // temporary storage
+                RGBTRIPLE triple;
 
-            // read RGB triple from infile
-            fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
+                // read RGB triple from infile
+                fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
-            // write RGB triple to outfile
-            fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+                // write RGB triple to outfile n times
+                for (int l = 0; i < n; l++)
+                {
+                    fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+                }
+            }
+            
+            // skip over padding, if any
+            fseek(inptr, old_padding, SEEK_CUR);
+
+            // add padding to output
+            for (int m = 0; m < padding; m++)
+            {
+                fputc(0x00, outptr);
+            }
+            
+            // move pointer back to start of line
+            if (k != n - 1)
+            {
+                fseek(inptr, -(bi.biWidth + old_padding), SEEK_CUR); 
+            }   
         }
 
-        // skip over padding, if any
-        fseek(inptr, padding, SEEK_CUR);
-
-        // then add it back (to demonstrate how)
-        for (int k = 0; k < padding; k++)
-        {
-            fputc(0x00, outptr);
-        }
     }
 
     // close infile
