@@ -80,6 +80,8 @@ int main(int argc, char* argv[])
     
     bi_new.biSizeImage = ((bi_new.biWidth * 3 + padding) * -bi_new.biHeight);
     
+    bf_new.bfSize = bf.bfSize - bi.biSizeImage + bi_new.biSizeImage;
+    
     // write outfile's BITMAPFILEHEADER
     fwrite(&bf_new, sizeof(BITMAPFILEHEADER), 1, outptr);
 
@@ -103,7 +105,7 @@ int main(int argc, char* argv[])
                 fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
                 // write RGB triple to outfile n times
-                for (int l = 0; i < n; l++)
+                for (int l = 0; l < n; l++)
                 {
                     fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
                 }
@@ -117,12 +119,13 @@ int main(int argc, char* argv[])
             {
                 fputc(0x00, outptr);
             }
-            
+        
             // move pointer back to start of line
             if (k != n - 1)
             {
-                fseek(inptr, -(bi.biWidth + old_padding), SEEK_CUR); 
+                fseek(inptr, -(bi.biWidth*sizeof(RGBTRIPLE) + old_padding), SEEK_CUR); 
             }   
+            
         }
 
     }
